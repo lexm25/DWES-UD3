@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <?php
+<?php
         $anyoNacimiento = 2003;
         $anyoActual = date("Y");
         echo "Tienes: ",$anyoActual - $anyoNacimiento," años";
@@ -37,6 +37,6 @@
         else{
             echo ("No puedes pasar");
         }
-    ?>  
+    ?> 
 </body>
 </html>
