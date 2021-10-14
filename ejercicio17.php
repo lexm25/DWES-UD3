@@ -11,8 +11,11 @@
     $nombre = "";
     $apellidos= "";
     $direccion = "";
+    $seleccionRadio="";
     $instituto = "";
     $estudios = "";
+    $seleccionDia="";
+    $seleccionCheckbox="";
     $texto = "";
     $errorNombre= "";
     $errorApellidos= "";
@@ -21,6 +24,7 @@
     $errorEstudios= "";
     $errorCheckBox= "";
     $errorRadio = "";
+    $errorSelecDia = "";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if(empty($_POST["nombre"])){
             $errorNombre = "El campo nombre no puede estar vacío";
@@ -43,6 +47,9 @@
         if(empty($_POST["instituto"])){
             $errorInstituto = "El campo instituto no puede estar vacío";
         }
+        else if(!(preg_match('/^IES/i', $instituto))){
+            $errorInstituto = "El instuto debe comenzar por IES";
+        }
         else{
             $instituto=$_POST["instituto"];
         }
@@ -52,15 +59,25 @@
         else{
             $estudios=$_POST["estudios"];
         }
-        if(!isset($_POST["wifi"]) || !isset($_POST["cable"]) || !isset($_POST["fibra"])){
+        if(empty($_POST["SelecRadio"])){
             $errorRadio = "Debe seleccionar una opción";
         }
-        if(!isset($_POST["historia"]) || !isset($_POST["geografia"]) || !isset($_POST["lengua"]) || !isset($_POST["matematicas"])){
+        else{
+            $seleccionRadio = $_POST["SelecRadio"];
+        }
+        if(empty($_POST["checkboxSelec"])){
             $errorCheckBox = "Debe seleccionar una opción";
         }
-        if(!preg_match('/^IES/', $instituto)){
-            $errorInstituto = "El instuto debe comenzar por IES";
+        else{
+            $seleccionCheckbox=$_POST["checkboxSelec"];
         }
+        if(empty($_POST["campoSelectMultiple"])){
+            $errorSelecDia = "Debe seleccionar un día";
+        }
+        else{
+            $seleccionDia = $_POST["campoSelectMultiple"];
+        }
+        
         $nombre = stripslashes($nombre);
         $nombre = strip_tags($nombre);
         $nombre = htmlspecialchars($nombre);
@@ -76,6 +93,10 @@
         $estudios = stripslashes($estudios);
         $estudios = strip_tags($estudios);
         $estudios = htmlspecialchars($estudios);
+
+        $texto = stripslashes($texto);
+        $texto = strip_tags($texto);
+        $texto = htmlspecialchars($texto);
     }
 ?>
 <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="Post">
@@ -99,9 +120,9 @@
     </div>
     <br>
     <div>
-        Wifi<input type="radio" name="radio1" value="wifi">
-        Cable<input type="radio" name="radio2" value="cable">
-        Fibra<input type="radio" name="radio3" value="fibra">
+        <input type="radio" name="selecRadio" value="wifi">Wifi
+        <input type="radio" name="selecradio" value="cable">Cable
+        <input type="radio" name="selecradio" value="fibra">Fibra
         <span style="color:red"><?php echo $errorRadio;?></span>
     </div>    
     <div>
@@ -122,22 +143,19 @@
             <option value="jueves">Jueves</option>
             <option value="viernes">Viernes</option>
         </select>
+        <span style="color:red"><?php echo $errorSelecDia;?></span>
     </div>
     <br>
     <div>
         Preferencias
         <br>
-        <input type="checkbox" name="checkbox1" value="historia">Historia
-        <input type="checkbox" name="checkbox2" value="geografía">Geografía
-        <input type="checkbox" name="checkbox3" value="lengua">Lengua
-        <input type="checkbox" name="checkbox4" value="matematicas">Matemáticas
+        <input type="checkbox" name="checkboxSelec" value="historia">Historia
+        <input type="checkbox" name="checkboxSelec" value="geografía">Geografía
+        <input type="checkbox" name="checkboxSelec" value="lengua">Lengua
+        <input type="checkbox" name="checkboxSelec" value="matematicas">Matemáticas
         <span style="color:red"><?php echo $errorCheckBox;?></span>
         <br>
-        <textarea name="campoTextarea" placeholder = "Inserte aquí el texto" value="<?php 
-                                            $texto = stripslashes($texto);
-                                            $texto = strip_tags($texto);
-                                            $texto = htmlspecialchars($texto); 
-                                            echo $texto;?>"></textarea>
+        <textarea name="campoTextarea" placeholder = "Inserte aquí el texto" value="<?php echo $texto;?>"></textarea>
         
     </div>
     <br>
