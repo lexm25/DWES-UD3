@@ -13,6 +13,7 @@
     $seleccionRadio = "";
     $errorPoblacion= "";
     $errorCodigoPostal= "";
+    $errorRadio = "";
     $texto = "";
     
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -34,7 +35,9 @@
         else{
             $seleccionRadio=$_POST["selecRadio"];
         }
-        if(!empty($texto))
+        if(!empty($texto)){
+            $texto = $_POST["campoTextarea"];
+        }
                 
         $poblacion = stripslashes($poblacion);
         $poblacion = strip_tags($poblacion);
@@ -49,7 +52,7 @@
         $texto = htmlspecialchars($texto);
     }
 ?>
-<form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="Post">
+<form action="recibido.php" method="Post">
     
     <div>
     Forlumario de opciones
@@ -84,7 +87,6 @@
     <br>
         <textarea name="campoTextarea" placeholder = "Descripción del municipio" value="<?php echo $texto;?>"></textarea>
     <br>
-    
         <input type="submit" value="Enviar">
         <input type="reset" value="Reset">
     </div>
